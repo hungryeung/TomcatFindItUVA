@@ -1,11 +1,13 @@
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  * Servlet implementation class for processing user inputs from login, signup, and posting (items for sale)
@@ -31,6 +33,17 @@ public class FormServlet extends HttpServlet {
 		response.getWriter().append("Served at: ").append(request.getContextPath()).append(", method= ").append(request.getMethod());;
 				response.setContentType("text/html");
 				PrintWriter out = response.getWriter(); 
+				
+				// Session is made and session data is inputed
+			HttpSession session = request.getSession(true);
+			Date createTime = new Date(session.getCreationTime());
+			session.setAttribute("semail", request.getParameter("inputEmail"));
+			out.println("Session Email: " + session.getAttribute("semail") + "<br/>");
+			out.println("Session Creation Time: " + createTime + "<br/>");
+			
+		else {
+			out.println("Session doesn't Exist!")
+		}
 		
 		if (request.getParameter("login-submit")!= null ) {
 			out.println("<br/><br/><html>" +
